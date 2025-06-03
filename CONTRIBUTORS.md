@@ -53,6 +53,15 @@ The [IntuneMacAdmins](https://intunemacadmins.com) team for OIB MacOS support.
                 </a>
             </td>
 		</tr>
+		<tr>
+            <td align="center">
+                <a href="https://github.com/SaWo82">
+                    <img src="https://avatars.githubusercontent.com/u/214631781?v=4" width="100;" alt="SaWo82"/>
+                    <br />
+                    <sub><b>SaWo82</b></sub>
+                </a>
+            </td>
+		</tr>
 	<tbody>
 </table>
 <!-- readme: contributors -end -->
