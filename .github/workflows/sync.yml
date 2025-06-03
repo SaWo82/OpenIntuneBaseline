@@ -1,0 +1,26 @@
+name: Sync Fork from Upstream
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # Jeden Tag um 03:00 Uhr UTC
+  workflow_dispatch:    # Manuell aus GitHub Web UI triggerbar
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout target repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/SkipToTheEndpoint/OpenIntuneBaseline.git
+          git fetch upstream
+          git merge upstream/main
+          
+      - name: Push changes
+        run: |
+          git push origin main
