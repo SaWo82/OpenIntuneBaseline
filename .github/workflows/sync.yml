@@ -15,12 +15,14 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
-      - name: Add upstream remote
+      - name: Set upstream remote (overwrite if needed)
         run: |
-          git remote add upstream https://github.com/SkipToTheEndpoint/OpenIntuneBaseline.git
-          git fetch upstream
-          git merge upstream/main
+              git remote remove upstream || true
+              git remote add upstream https://github.com/SkipToTheEndpoint/OpenIntuneBaseline.git
+              git fetch upstream
+              git merge upstream/main
+
           
       - name: Push changes
         run: |
-          git push origin main
+          git push origin main || echo "No changes to push"
