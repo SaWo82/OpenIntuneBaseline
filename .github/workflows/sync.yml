@@ -3,26 +3,34 @@ name: Sync Fork from Upstream
 on:
   schedule:
     - cron: '0 3 * * *'  # Jeden Tag um 03:00 Uhr UTC
-  workflow_dispatch: {}   # Manuell aus GitHub Web UI triggerbar
+  workflow_dispatch: {}   # Optional: manuell aus GitHub UI triggerbar
 
 jobs:
   sync:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout target repo
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
+          fetch-depth: 0  # vollständige Historie nötig für Merge
 
       - name: Set upstream remote (overwrite if needed)
         run: |
-              git remote remove upstream || true
-              git remote add upstream https://github.com/SkipToTheEndpoint/OpenIntuneBaseline.git
-              git fetch upstream
-              git merge upstream/main
+          git remote remove upstream || true
+          git remote add upstream https://github.com/SkipToTheEndpoint/OpenIntuneBaseline.git
+          git fetch upstream
 
-          
+      - name: Configure Git identity
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+
+      - name: Merge upstream changes
+        run: |
+          git merge upstream/main
+
       - name: Push changes
         run: |
           git push origin main || echo "No changes to push"
